@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "aos": "^2.3.4",
+    "react-tsparticles": "^2.12.2",
+    "typewriter-effect": "^2.22.0"
+  }
+}

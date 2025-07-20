@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Chat Assistant</title>
+  <style>
+    /* Reset and base */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f4f4f4; color: #333; }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1000px;
+      width: 100%;
+      height: 100vh;
+      margin: 0 auto;
+      background: #fff;
+    }
+
+    /* Control panel */
+    .control-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+      background: #fafafa;
+    }
+
+    .file-label {
+      position: relative;
+      display: inline-block;
+      padding: 8px 16px;
+      background: #007BFF;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .file-label input[type=file] {
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    button, select {
+      font-size: 14px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    button:disabled, select:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Limit dropdown width and truncate long names */
+    select {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Chat window grows to fill*/
+    .chat-window {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin-bottom: 12px;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .user { text-align: right; }
+    .ai { text-align: left; color: #007BFF; }
+
+    /* Input area */
+    .input-container {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    .input-container input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      font-size: 16px;
+    }
+    .input-container button {
+      padding: 12px 24px;
+      border: none;
+      background: #007BFF;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .control-panel { justify-content: center; }
+      .file-label, button, select { flex: 1 1 auto; }
+      .file-label { text-align: center; }
+      select { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="control-panel">
+      <label class="file-label">Choose PDF
+        <input type="file" id="pdfUpload" accept="application/pdf" />
+      </label>
+      <button id="uploadPdfBtn">Upload</button>
+      <select id="collectionSelect" disabled>
+        <option>Loading…</option>
+      </select>
+      <button id="deleteCollectionBtn" disabled>Delete</button>
+    </div>
+    <div class="chat-window" id="chat-window"></div>
+    <div class="input-container">
+      <input type="text" id="query" placeholder="Ask your PDF…" />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const apiBase = "http://localhost:3000/api/pdf";
+    const uploadBtn = document.getElementById("uploadPdfBtn");
+    const deleteBtn = document.getElementById("deleteCollectionBtn");
+    const pdfUploadInput = document.getElementById("pdfUpload");
+    const collectionSelect = document.getElementById("collectionSelect");
+    const chatWindow = document.getElementById("chat-window");
+    const queryInput = document.getElementById("query");
+    const sendBtn = document.getElementById("sendBtn");
+
+    document.addEventListener("DOMContentLoaded", fetchCollections);
+    async function fetchCollections() {
+      collectionSelect.disabled = true;
+      deleteBtn.disabled = true;
+      collectionSelect.textContent = '';
+      const opt = document.createElement('option'); opt.textContent = 'Loading…';
+      collectionSelect.append(opt);
+      try {
+        const res = await fetch(`${apiBase}/collections`);
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : data.collections || [];
+        collectionSelect.innerHTML = list.length
+          ? '<option value="" disabled selected>Select</option>'
+          : '<option disabled>No collections</option>';
+
+        list.forEach(name => {
+          const o = document.createElement('option'); o.value = name; o.textContent = name;
+          collectionSelect.append(o);
+        });
+        collectionSelect.disabled = false;
+        collectionSelect.onchange = () => deleteBtn.disabled = !collectionSelect.value;
+      } catch (e) {
+        console.error(e);
+        collectionSelect.innerHTML = '<option disabled>Error</option>';
+      }
+    }
+
+    uploadBtn.addEventListener("click", async () => {
+      const file = pdfUploadInput.files[0];
+      if (!file) return alert('Select a PDF');
+      uploadBtn.disabled = true;
+      const form = new FormData(); form.append('pdf', file); form.append('collectionName', file.name);
+      try {
+        const res = await fetch(`${apiBase}/upload`, { method: 'POST', body: form });
+        if (!res.ok) throw new Error('Upload failed');
+        await fetchCollections();
+      } catch (err) { alert(err.message); }
+      uploadBtn.disabled = false;
+    });
+
+    deleteBtn.addEventListener("click", async () => {
+      const coll = collectionSelect.value;
+      if (!coll || !confirm(`Delete "${coll}"?`)) return;
+      deleteBtn.disabled = true;
+      try {
+        const res = await fetch(`${apiBase}/collections`, {
+          method: 'DELETE', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({collectionName: coll})
+        });
+        if (!res.ok) throw new Error('Delete failed');
+        await fetchCollections();
+      } catch (err) { alert(err.message); }
+      deleteBtn.disabled = false;
+    });
+
+    sendBtn.addEventListener("click", async () => {
+      const query = queryInput.value.trim(); const coll = collectionSelect.value;
+      if (!query || !coll) return alert('Enter question & select collection');
+      appendMessage(`You: ${query}`, 'user');
+      queryInput.value = ''; sendBtn.disabled = true;
+      appendMessage('AI: ', 'ai'); const aiBubble = chatWindow.lastChild;
+      try {
+        const res = await fetch(`${apiBase}/chat`, {
+          method: 'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({query, collectionName: coll})
+        });
+        if (!res.ok) throw new Error(`Chat failed (${res.status})`);
+        const reader = res.body.getReader(); const dec = new TextDecoder(); let buf=''; let done=false;
+        while (!done) {
+          const {value,done:streamDone} = await reader.read(); if (streamDone) break;
+          buf += dec.decode(value, {stream:true});
+          const lines = buf.split('\n');
+          for (let i = 0; i < lines.length - 1; i++) {
+            const line = lines[i].trim(); if (!line.startsWith('data:')) continue;
+            const txt = line.slice(5).trim(); if (txt === '[DONE]') { done = true; break; }
+            if (!aiBubble.textContent.endsWith(' ')) aiBubble.textContent += ' ';
+            for (const c of txt) { aiBubble.textContent += c; chatWindow.scrollTop = chatWindow.scrollHeight; await new Promise(r=>setTimeout(r,15)); }
+          }
+          buf = lines[lines.length - 1];
+        }
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        sendBtn.disabled = false;
+      }
+    });
+
+    function appendMessage(text, cls) {
+      const d = document.createElement('div'); d.className = `message ${cls}`; d.textContent = text;
+      chatWindow.append(d); chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+  </script>
+</body>
+</html>
