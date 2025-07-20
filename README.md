@@ -125,15 +125,17 @@ This project is licensed under the MIT License.
 
 Credits
 
-OpenAI – for embeddings API
+Credits
 
-LangChain – for document loaders and text splitting
+OpenAI – for embeddings API(https://openai.com/)
 
-Qdrant – for vector database and similarity search
+LangChain – for document loaders and text splitting( https://www.langchain.com/)
 
-Express.js – for server API
+Qdrant – for vector database and similarity search(https://qdrant.tech/)
 
-Docker – for containerized Qdrant setup
+Express.js – for server API(https://expressjs.com/)
+
+Docker – for containerized Qdrant setup( https://www.docker.com/)
 
 
 To all the developers included in this project 
