@@ -150,3 +150,9 @@ Thanks to all team members for helping achieve this in just 30 hours! Your contr
 💡 Call for Contributions
 
 This is an open-source project. Fork it, star it ⭐, and help us make it even better. Share your ideas, fixes, or feature requests via pull requests or issues.
+
+
+Thanks for contributing all members
+ Amankamboj (https://www.linkedin.com/in/aman-kamboj-68ba6b203/)
+ Tarun tomar (https://www.linkedin.com/in/tarun-tomar-89064334/)
+ Amit Negi (https://www.linkedin.com/in/amit-negi-87208abb/)
