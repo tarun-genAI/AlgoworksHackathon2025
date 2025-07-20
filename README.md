@@ -1,13 +1,14 @@
-📄 PDF RAG App – AI Question Answering from Documents
 
-This project is a PDF-based Retrieval-Augmented Generation (RAG) system. Users can upload PDFs, which are then split into chunks, embedded using OpenAI, stored in Qdrant, and queried for context-aware answers. The system filters answers to only return those marked with labelValue 1.
+We’re excited to share the final results of our project,LLM GURU App – AI Question Answering from Documents.
+
+This system enables users to upload PDFs, process them into searchable chunks with OpenAI embeddings, It’s built for fast, scalable deployment and designed with open-source collaboration in mind.
+
 
 ⸻
 
 🚀 Features
 	•	📥 PDF Upload & Processing – Upload PDFs and auto-process their content.
 	•	🔎 Semantic Search – Query using OpenAI embeddings for precise context.
-	•	✅ Label Filtering – Returns only answers with labelValue 1.
 	•	📦 Qdrant Vector Store – Stores and retrieves embedded chunks efficiently.
 	•	📝 API Ready – Endpoints for uploading and querying PDFs.
 
@@ -108,8 +109,8 @@ Qdrant scaling for big data	Implement sharding & replication
 
 Get up and running in under 10 minutes:
 
-git clone https://github.com/your-username/pdf-rag-app.git
-cd pdf-rag-app
+git clone https://github.com/
+cd LLM GURU
 npm install
 docker-compose -f docker-compose.db.yml up -d
 npm run dev
