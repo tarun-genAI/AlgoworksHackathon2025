@@ -120,3 +120,22 @@ npm run dev
 📜 License
 
 This project is licensed under the MIT License.
+
+
+
+Credits
+
+OpenAI – for embeddings API
+
+LangChain – for document loaders and text splitting
+
+Qdrant – for vector database and similarity search
+
+Express.js – for server API
+
+Docker – for containerized Qdrant setup
+
+
+To all the developers included in this project 
+
+Thanks to all to achieve this in 30 hours. 
