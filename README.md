@@ -1,8 +1,19 @@
+📄 LLM GURU App – AI Question Answering from Documents
 
-We’re excited to share the final results of our project,LLM GURU App – AI Question Answering from Documents.
+We’re excited to share the final results of our project, LLM GURU App – AI Question Answering from Documents.
 
-This system enables users to upload PDFs, process them into searchable chunks with OpenAI embeddings, It’s built for fast, scalable deployment and designed with open-source collaboration in mind.
+This system enables users to upload PDFs, process them into searchable chunks with OpenAI embeddings, and retrieve precise answers to their questions. It’s designed for fast, scalable deployment and open-source collaboration—ideal for researchers, teams, and public knowledge sharing.
 
+⸻
+
+🌐 Public Access & Showcase
+
+The full results of this work have been showcased and published under an open license. You can:
+	•	🔗 View Source Code: https://github.com/your-username/pdf-rag-app
+	•	🌐 Live Demo (if deployed): https://your-app-demo-link.com (optional)
+	•	📦 Dockerized Setup: Ready for local and cloud deployments.
+
+We welcome feedback, contributions, and real-world use cases.
 
 ⸻
 
@@ -86,12 +97,12 @@ npm test
 ⸻
 
 🏁 Roadmap
-	•	PDF upload & chunking
-	•	Semantic search with OpenAI embeddings
-	•	Filter responses by labelValue 1
-	•	Add multi-user support and authentication
-	•	Build frontend UI for uploads and queries
-	•	Deploy to AWS Amplify / Vercel
+	•	✅ PDF upload & chunking
+	•	✅ Semantic search with OpenAI embeddings
+	•	✅ Filter responses by labelValue 1
+	•	⬜ Add multi-user support and authentication
+	•	⬜ Build frontend UI for uploads and queries
+	•	⬜ Deploy to AWS Amplify / Vercel
 
 ⸻
 
@@ -109,8 +120,8 @@ Qdrant scaling for big data	Implement sharding & replication
 
 Get up and running in under 10 minutes:
 
-git clone https://github.com/
-cd LLM GURU
+git clone https://github.com/your-username/pdf-rag-app.git
+cd pdf-rag-app
 npm install
 docker-compose -f docker-compose.db.yml up -d
 npm run dev
@@ -120,25 +131,22 @@ npm run dev
 
 📜 License
 
-This project is licensed under the MIT License.
+This project is published under the MIT License, making it freely available for modification and distribution.
 
+⸻
 
+🙏 Credits
 
-Credits
+OpenAI – https://openai.com/
+LangChain – https://www.langchain.com/
+Qdrant – https://qdrant.tech/
+Express.js – https://expressjs.com/
+Docker – https://www.docker.com/
 
-Credits
+Thanks to all team members for helping achieve this in just 30 hours! Your contributions made this possible.
 
-OpenAI – for embeddings API(https://openai.com/)
+⸻
 
-LangChain – for document loaders and text splitting( https://www.langchain.com/)
+💡 Call for Contributions
 
-Qdrant – for vector database and similarity search(https://qdrant.tech/)
-
-Express.js – for server API(https://expressjs.com/)
-
-Docker – for containerized Qdrant setup( https://www.docker.com/)
-
-
-To all the developers included in this project 
-
-Thanks to all to achieve this in 30 hours. 
+This is an open-source project. Fork it, star it ⭐, and help us make it even better. Share your ideas, fixes, or feature requests via pull requests or issues.
