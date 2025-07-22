@@ -99,7 +99,7 @@ npm test
 🏁 Roadmap
 	•	✅ PDF upload & chunking
 	•	✅ Semantic search with OpenAI embeddings
-	•	✅ Filter responses by labelValue 1
+	•	✅ Filter responses using LLM from the relevant chunks
 	•	⬜ Add multi-user support and authentication
 	•	⬜ Build frontend UI for uploads and queries
 	•	⬜ Deploy to AWS Amplify / Vercel
